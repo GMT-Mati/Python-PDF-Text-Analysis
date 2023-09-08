@@ -1,120 +1,69 @@
-import PyPDF2
+import fitz
+import tkinter as tk
+from tkinter import filedialog, ttk
 
-import nltk
+def extract_text_from_pdf(pdf_path):
+    # Extract text from a PDF file and return it as a string.
+    text = ""
+    pdf_document = fitz.open(pdf_path)
+    for page_num in range(pdf_document.page_count):
+        page = pdf_document[page_num]
+        text += page.get_text()
+    return text
 
-from nltk.tokenize import word_tokenize
+def count_word_frequency(text):
+    # Count the frequency of each word in the provided text and return a dictionary.
+    words = text.split()
+    word_count = {}
+    for word in words:
+        word = word.lower()  # Convert to lowercase to ensure case-insensitive counting
+        if word in word_count:
+            word_count[word] += 1
+        else:
+            word_count[word] = 1
+    return word_count
 
-from nltk.probability import FreqDist
+def sort_words(word_count, sort_by):
+    # Sort words either by frequency or alphabetically and return a sorted list of tuples.
+    if sort_by == 'Frequency':
+        return sorted(word_count.items(), key=lambda x: x[1], reverse=True)
+    else:
+        return sorted(word_count.items(), key=lambda x: x[0])
 
-from nltk.sentiment import SentimentIntensityAnalyzer
+def browse_pdf():
+    file_path = filedialog.askopenfilename(filetypes=[("PDF Files", "*.pdf")])
+    if file_path:
+        pdf_text.delete("1.0", tk.END)  # Clear the previous text
+        pdf_text.insert(tk.END, f"Selected PDF: {file_path}\n\n")
 
-import spacy
+        text = extract_text_from_pdf(file_path)
+        word_frequency = count_word_frequency(text)
+        
+        selected_sort = sort_option.get()  # Get the selected sorting option
+        
+        sorted_words = sort_words(word_frequency, selected_sort)
+        
+        for word, frequency in sorted_words:
+            pdf_text.insert(tk.END, f"{word}: {frequency}\n")
 
-from spacy import displacy
+# Create the main GUI window
+root = tk.Tk()
+root.title("PDF Word Frequency Counter")
 
-from collections import Counter
+# Create a button to browse for PDF files
+browse_button = tk.Button(root, text="Browse for PDF", command=browse_pdf)
+browse_button.pack()
 
-from langdetect import detect
+# Create a sorting option dropdown menu
+sort_option_label = tk.Label(root, text="Sort by:")
+sort_option_label.pack()
+sort_option = ttk.Combobox(root, values=["Frequency", "Alphabetically"])
+sort_option.set("Frequency")
+sort_option.pack()
 
-from gensim import corpora, models
+# Create a text widget to display PDF text and word frequency
+pdf_text = tk.Text(root, wrap=tk.WORD, width=40, height=20)
+pdf_text.pack()
 
-from wordcloud import WordCloud
-
-import matplotlib.pyplot as plt
-
-# Open the PDF file in read binary mode
-
-pdf_file = open('sample.pdf', 'rb')
-
-# Create a PDF reader object
-
-pdf_reader = PyPDF2.PdfFileReader(pdf_file)
-
-# Get the number of pages in the PDF file
-
-num_pages = pdf_reader.getNumPages()
-
-# Initialize an empty string to store the text
-
-text = ""
-
-# Loop through each page of the PDF file and extract the text
-
-for i in range(num_pages):
-
-    page = pdf_reader.getPage(i)
-
-    text += page.extractText()
-
-# Tokenize the text
-
-tokens = word_tokenize(text)
-
-# Get the frequency distribution of the tokens
-
-fdist = FreqDist(tokens)
-
-# Print the 10 most common tokens
-
-print(fdist.most_common(10))
-
-# Perform sentiment analysis on the text
-
-sia = SentimentIntensityAnalyzer()
-
-sentiment = sia.polarity_scores(text)
-
-print("Sentiment Analysis Results:")
-
-print(sentiment)
-
-# Perform named entity recognition
-
-nlp = spacy.load("en_core_web_sm")
-
-doc = nlp(text)
-
-entities = [(entity.text, entity.label_) for entity in doc.ents]
-
-print("Named Entity Recognition Results:")
-
-print(entities)
-
-# Detect language of the text
-
-language = detect(text)
-
-print("Detected Language:", language)
-
-# Perform topic modeling on the text
-
-texts = [tokens]
-
-dictionary = corpora.Dictionary(texts)
-
-corpus = [dictionary.doc2bow(text) for text in texts]
-
-lda_model = models.ldamodel.LdaModel(corpus, num_topics=3, id2word=dictionary, passes=10)
-
-print("Topic Modeling Results:")
-
-for idx, topic in lda_model.print_topics(-1):
-
-    print("Topic {}: {}".format(idx, topic))
-
-# Generate word cloud of the text
-
-wordcloud = WordCloud().generate(text)
-
-plt.imshow(wordcloud, interpolation='bilinear')
-
-plt.axis("off")
-
-plt.show()
-
-# Close the PDF file
-
-pdf_file.close()
-
-
-
+# Start the Tkinter main loop
+root.mainloop()
