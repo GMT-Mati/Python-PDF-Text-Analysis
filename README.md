@@ -1,6 +1,3 @@
-Certainly, here's a complete `README.md` file for your Python PDF Word Frequency Counter with Tkinter GUI project:
-
-```markdown
 # PDF Word Frequency Counter with Tkinter GUI
 
 This Python application allows you to select a PDF file, extract its text content, and display word frequency either by frequency or alphabetically in a graphical user interface (GUI) built with Tkinter.
