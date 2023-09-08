@@ -1,71 +1,55 @@
-# Python PDF Text Analysis
+Certainly, here's a complete `README.md` file for your Python PDF Word Frequency Counter with Tkinter GUI project:
 
-## Overview
+```markdown
+# PDF Word Frequency Counter with Tkinter GUI
 
-This repository contains a Python project for analyzing text data extracted from PDF documents. The project includes tools and scripts for extracting text from PDF files, performing various text analysis tasks, and generating insights from the extracted text data.
+This Python application allows you to select a PDF file, extract its text content, and display word frequency either by frequency or alphabetically in a graphical user interface (GUI) built with Tkinter.
 
-## Features
+## Requirements
 
-- PDF Text Extraction: Extract text content from PDF documents.
-- Text Preprocessing: Preprocess the extracted text data, including text cleaning and normalization.
-- Text Analysis: Perform various text analysis tasks, such as word frequency analysis, sentiment analysis, and topic modeling.
-- Visualization: Create visualizations (e.g., word clouds, sentiment plots) to visualize the results of text analysis.
-- Insights: Generate insights and conclusions from the text data analysis.
+Before running the application, make sure you have the required Python libraries installed. You can install them by running the following command:
 
-## Getting Started
-
-To get started with this project, follow these steps:
-
-1. **Clone the Repository**: Clone this GitHub repository to your local machine using the following command:
-
-   ```bash
-   git clone https://github.com/GMT-Mati/Python-PDF-Text-Analysis.git
-   ```
-
-2. **Install Dependencies**: Install the required Python packages for the project. You can use a virtual environment to manage dependencies:
-
-   ```bash
-   # Navigate to the project directory
-   cd Python-PDF-Text-Analysis
-
-   # Create a virtual environment (optional)
-   python -m venv venv
-
-   # Activate the virtual environment
-   # On Windows
-   venv\Scripts\activate
-   # On macOS and Linux
-   source venv/bin/activate
-
-   # Install dependencies
-   pip install -r requirements.txt
-   ```
-
-3. **Run the Project**: Use the provided Python scripts and tools to extract text from PDF files, perform text analysis, and generate insights.
+```bash
+pip install -r requirements.txt
+```
 
 ## Usage
 
-1. **Extract Text from PDFs**: Use the PDF text extraction tool to extract text content from PDF documents.
-2. **Text Preprocessing**: Preprocess the extracted text data to clean and normalize the text.
-3. **Text Analysis**: Perform text analysis tasks using the provided scripts, such as word frequency analysis, sentiment analysis, or topic modeling.
-4. **Visualization**: Create visualizations to better understand the results of text analysis.
-5. **Generate Insights**: Use the analysis results to draw insights and conclusions from the text data.
+1. Clone this repository to your local machine.
+
+2. Install the required dependencies as mentioned in the "Requirements" section.
+
+3. Run the application using the following command:
+
+```bash
+python main.py
+```
+
+4. Click the "Browse for PDF" button in the GUI to select a PDF file.
+
+5. The selected PDF's text content will be displayed in the text widget.
+
+6. Use the dropdown menu to select either "Frequency" or "Alphabetically" as the sorting order.
+
+7. Click the "Sort" button to sort the words based on the selected sorting order.
+
+8. The sorted word frequency will be displayed in the text widget.
+
+9. To analyze a different PDF, click the "Browse for PDF" button again.
+
+10. To clean up compiled files, you can run:
+
+```bash
+make clean
+```
 
 ## Contributing
 
-If you'd like to contribute to this project, please follow the standard GitHub fork and pull request workflow. Contributions, bug reports, and feature requests are welcome.
+Feel free to contribute to this project by opening issues or submitting pull requests.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+```
 
-## Contact
-
-If you have any questions or need further information, feel free to contact the project maintainer:
-
-- **Name**: Mateusz Gruszka
-- **Email**: mateusz.gruszka@linux.pl
-
-## Acknowledgments
-
-- [List any acknowledgments or sources of inspiration here, if applicable.]
+This `README.md` provides comprehensive instructions for setting up and using your PDF Word Frequency Counter with the Tkinter GUI, including installation, usage, contributing, and licensing information.
