@@ -1,0 +1,7 @@
+# Compute sentence similarity
+sentences = list(doc.sents)
+for i in range(len(sentences)):
+    for j in range(i+1, len(sentences)):
+        similarity = sentences[i].similarity(sentences[j])
+        print(f"Similarity between Sentence {i+1} and Sentence {j+1}: {similarity}")
+        
