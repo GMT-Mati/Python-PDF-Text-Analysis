@@ -1,0 +1,17 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from gensim.summarization import keywords
+
+# TF-IDF keyphrase extraction
+tfidf_vectorizer = TfidfVectorizer()
+tfidf_matrix = tfidf_vectorizer.fit_transform([text])
+feature_names = tfidf_vectorizer.get_feature_names_out()
+dense = tfidf_matrix.todense()
+phrase_scores = [pair for pair in zip(range(0, dense.shape[1]), dense[0].tolist())]
+sorted_phrase_scores = sorted(phrase_scores, key=lambda t: t[1] * -1)
+for phrase, score in [(feature_names[word_id], score) for (word_id, score) in sorted_phrase_scores][:10]:
+    print('Phrase: {}, TF-IDF Score: {}'.format(phrase, score))
+
+# TextRank keyphrase extraction
+ranked_keywords = keywords(text, words=10, lemmatize=True).split('\n')
+print("TextRank Keyphrases:", ranked_keywords)
