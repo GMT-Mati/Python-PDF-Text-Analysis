@@ -1,6 +1,4 @@
 import fitz
-import tkinter as tk
-from tkinter import filedialog, ttk
 import string
 import csv
 
@@ -42,90 +40,100 @@ def sort_words(word_count, sort_by):
     else:
         return sorted(word_count.items(), key=lambda x: x[0])
 
-def browse_pdf():
-    file_path = filedialog.askopenfilename(filetypes=[("PDF Files", "*.pdf")])
-    if file_path:
-        pdf_text.delete("1.0", tk.END)  # Clear the previous text
-        pdf_text.insert(tk.END, f"Selected PDF: {file_path}\n\n")
+def export_to_csv(file_path, text):
+    lines = text.strip().split('\n')[2:]  # Skip the first two lines (header and empty line)
+    with open(file_path, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Word", "Frequency"])
+        for line in lines:
+            if line:
+                word, frequency = line.split(": ")
+                writer.writerow([word, frequency])
 
-        text = extract_text_from_pdf(file_path)
-        filter_stop_words = filter_stop_words_var.get()
-        word_frequency = count_word_frequency(text, filter_stop_words)
-        
-        selected_sort = sort_option.get()  # Get the selected sorting option
-        sorted_words = sort_words(word_frequency, selected_sort)
+def main():
+    import tkinter as tk
+    from tkinter import filedialog, ttk
 
-        display_top_n = int(top_n_entry.get()) if top_n_entry.get().isdigit() else len(sorted_words)
-        sorted_words = sorted_words[:display_top_n]
+    def browse_pdf():
+        file_path = filedialog.askopenfilename(filetypes=[("PDF Files", "*.pdf")])
+        if file_path:
+            pdf_text.delete("1.0", tk.END)  # Clear the previous text
+            pdf_text.insert(tk.END, f"Selected PDF: {file_path}\n\n")
 
-        for word, frequency in sorted_words:
-            pdf_text.insert(tk.END, f"{word}: {frequency}\n")
+            text = extract_text_from_pdf(file_path)
+            filter_stop_words = filter_stop_words_var.get()
+            word_frequency = count_word_frequency(text, filter_stop_words)
+            
+            selected_sort = sort_option.get()  # Get the selected sorting option
+            sorted_words = sort_words(word_frequency, selected_sort)
 
-def export_to_csv():
-    file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV Files", "*.csv")])
-    if file_path:
-        text = pdf_text.get("1.0", tk.END)
-        lines = text.strip().split('\n')[2:]  # Skip the first two lines (header and empty line)
-        with open(file_path, mode='w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(["Word", "Frequency"])
-            for line in lines:
-                if line:
-                    word, frequency = line.split(": ")
-                    writer.writerow([word, frequency])
+            display_top_n = int(top_n_entry.get()) if top_n_entry.get().isdigit() else len(sorted_words)
+            sorted_words = sorted_words[:display_top_n]
 
-def search_word():
-    query = search_entry.get().lower()
-    content = pdf_text.get("1.0", tk.END)
-    pdf_text.delete("1.0", tk.END)
-    lines = content.strip().split('\n')
-    pdf_text.insert(tk.END, f"{lines[0]}\n\n")
-    for line in lines[2:]:
-        if query in line.lower():
-            pdf_text.insert(tk.END, f"{line}\n")
+            for word, frequency in sorted_words:
+                pdf_text.insert(tk.END, f"{word}: {frequency}\n")
 
-# Create the main GUI window
-root = tk.Tk()
-root.title("PDF Word Frequency Counter")
+    def export_to_csv_gui():
+        file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV Files", "*.csv")])
+        if file_path:
+            text = pdf_text.get("1.0", tk.END)
+            export_to_csv(file_path, text)
 
-# Create a button to browse for PDF files
-browse_button = tk.Button(root, text="Browse for PDF", command=browse_pdf)
-browse_button.pack()
+    def search_word():
+        query = search_entry.get().lower()
+        content = pdf_text.get("1.0", tk.END)
+        pdf_text.delete("1.0", tk.END)
+        lines = content.strip().split('\n')
+        pdf_text.insert(tk.END, f"{lines[0]}\n\n")
+        for line in lines[2:]:
+            if query in line.lower():
+                pdf_text.insert(tk.END, f"{line}\n")
 
-# Create a sorting option dropdown menu
-sort_option_label = tk.Label(root, text="Sort by:")
-sort_option_label.pack()
-sort_option = ttk.Combobox(root, values=["Frequency", "Alphabetically"])
-sort_option.set("Frequency")
-sort_option.pack()
+    # Create the main GUI window
+    root = tk.Tk()
+    root.title("PDF Word Frequency Counter")
 
-# Create an entry to specify the top N words to display
-top_n_label = tk.Label(root, text="Display Top N Words:")
-top_n_label.pack()
-top_n_entry = tk.Entry(root)
-top_n_entry.insert(0, "10")  # Default to top 10 words
-top_n_entry.pack()
+    # Create a button to browse for PDF files
+    browse_button = tk.Button(root, text="Browse for PDF", command=browse_pdf)
+    browse_button.pack()
 
-# Create a checkbox to filter out stop words
-filter_stop_words_var = tk.BooleanVar()
-filter_stop_words_checkbox = tk.Checkbutton(root, text="Filter Stop Words", variable=filter_stop_words_var)
-filter_stop_words_checkbox.pack()
+    # Create a sorting option dropdown menu
+    sort_option_label = tk.Label(root, text="Sort by:")
+    sort_option_label.pack()
+    sort_option = ttk.Combobox(root, values=["Frequency", "Alphabetically"])
+    sort_option.set("Frequency")
+    sort_option.pack()
 
-# Create a button to export results to CSV
-export_button = tk.Button(root, text="Export to CSV", command=export_to_csv)
-export_button.pack()
+    # Create an entry to specify the top N words to display
+    top_n_label = tk.Label(root, text="Display Top N Words:")
+    top_n_label.pack()
+    top_n_entry = tk.Entry(root)
+    top_n_entry.insert(0, "10")  # Default to top 10 words
+    top_n_entry.pack()
 
-# Create a search bar to search for specific words
-search_label = tk.Label(root, text="Search for a word:")
-search_label.pack()
-search_entry = tk.Entry(root)
-search_entry.pack()
-search_button = tk.Button(root, text="Search", command=search_word)
-search_button.pack()
+    # Create a checkbox to filter out stop words
+    filter_stop_words_var = tk.BooleanVar()
+    filter_stop_words_checkbox = tk.Checkbutton(root, text="Filter Stop Words", variable=filter_stop_words_var)
+    filter_stop_words_checkbox.pack()
 
-# Create a text widget to display PDF text and word frequency
-pdf_text = tk.Text(root, wrap=tk.WORD, width=50, height=20)
-pdf_text.pack()
+    # Create a button to export results to CSV
+    export_button = tk.Button(root, text="Export to CSV", command=export_to_csv_gui)
+    export_button.pack()
 
-# Start the Tkinter main loop
-root.mainloop()
+    # Create a search bar to search for specific words
+    search_label = tk.Label(root, text="Search for a word:")
+    search_label.pack()
+    search_entry = tk.Entry(root)
+    search_entry.pack()
+    search_button = tk.Button(root, text="Search", command=search_word)
+    search_button.pack()
+
+    # Create a text widget to display PDF text and word frequency
+    pdf_text = tk.Text(root, wrap=tk.WORD, width=50, height=20)
+    pdf_text.pack()
+
+    # Start the Tkinter main loop
+    root.mainloop()
+
+if __name__ == "__main__":
+    main()
