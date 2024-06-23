@@ -1,5 +1,3 @@
-# tests/test_app.py
-
 import pytest
 from app import count_word_frequency
 
