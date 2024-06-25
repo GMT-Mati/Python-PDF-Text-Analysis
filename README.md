@@ -1,52 +1,88 @@
-# PDF Word Frequency Counter with Tkinter GUI
+PDF Word Frequency Counter application
 
-This Python application allows you to select a PDF file, extract its text content, and display word frequency either by frequency or alphabetically in a graphical user interface (GUI) built with Tkinter.
+```markdown
+# PDF Word Frequency Counter
 
-## Requirements
+The PDF Word Frequency Counter is a Python-based GUI tool that allows users to analyze word frequencies in PDF files. It provides various features including sorting options, stop words filtering, word cloud visualization, and exporting results to a CSV file.
 
-Before running the application, make sure you have the required Python libraries installed. You can install them by running the following command:
+## Features
 
-```bash
-pip install -r requirements.txt
+- **Browse and Select PDF File:** Select a PDF file from your file system.
+- **Word Frequency Analysis:** Extracts text from the PDF and counts the frequency of each word.
+- **Sorting Options:** Sort word frequencies either by frequency or alphabetically.
+- **Top N Words Display:** Display the top N frequent words.
+- **Stop Words Filtering:** Option to exclude common stop words from the analysis.
+- **Export to CSV:** Export word frequency results to a CSV file.
+- **Search Feature:** Search for specific words within the results.
+- **Word Cloud Visualization:** Generate and display a word cloud based on word frequencies.
+
+## Installation
+
+Ensure you have Python installed on your system. You will also need to install the following Python libraries:
+
+- PyMuPDF (fitz)
+- Tkinter
+- WordCloud
+- Matplotlib
+- Pillow
+
+You can install these libraries using pip:
+
+```sh
+pip install pymupdf wordcloud matplotlib pillow
 ```
 
 ## Usage
 
-1. Clone this repository to your local machine.
+1. **Run the Application:**
 
-2. Install the required dependencies as mentioned in the "Requirements" section.
+   Run the Python script to start the application:
 
-3. Run the application using the following command:
+   ```sh
+   python pdf_word_counter.py
+   ```
 
-```bash
-python main.py
-```
+2. **Browse PDF:**
 
-4. Click the "Browse for PDF" button in the GUI to select a PDF file.
+   Click the "Browse for PDF" button to open a file dialog and select a PDF file.
 
-5. The selected PDF's text content will be displayed in the text widget.
+3. **Set Options:**
+   - **Sort by:** Choose between "Frequency" or "Alphabetically" to sort the word frequencies.
+   - **Display Top N Words:** Enter the number of top words to display.
+   - **Filter Stop Words:** Check the checkbox to exclude common stop words from the analysis.
 
-6. Use the dropdown menu to select either "Frequency" or "Alphabetically" as the sorting order.
+4. **View Results:**
 
-7. Click the "Sort" button to sort the words based on the selected sorting order.
+   The word frequencies will be displayed in the text widget.
 
-8. The sorted word frequency will be displayed in the text widget.
+5. **Export Results:**
 
-9. To analyze a different PDF, click the "Browse for PDF" button again.
+   Click the "Export to CSV" button to save the results to a CSV file.
 
-10. To clean up compiled files, you can run:
+6. **Search Words:**
 
-```bash
-make clean
-```
+   Enter a word in the search bar and click the "Search" button to filter the results.
 
-## Contributing
+7. **Generate Word Cloud:**
 
-Feel free to contribute to this project by opening issues or submitting pull requests.
+   Click the "Generate Word Cloud" button to create and display a word cloud based on the word frequencies.
+
+## Example
+
+Here is a screenshot of the application in action:
+
+![PDF Word Frequency Counter Screenshot](screenshot.png)
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-```
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-This `README.md` provides comprehensive instructions for setting up and using your PDF Word Frequency Counter with the Tkinter GUI, including installation, usage, contributing, and licensing information.
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request for any changes or improvements.
+
+## Contact
+
+For any questions or feedback, please contact [mateusz.gruszka@linux.pl](mailto:mateusz.gruszka@linux.pl).
+
+```
