@@ -1,6 +1,3 @@
-PDF Word Frequency Counter application
-
-```markdown
 # PDF Word Frequency Counter
 
 The PDF Word Frequency Counter is a Python-based GUI tool that allows users to analyze word frequencies in PDF files. It provides various features including sorting options, stop words filtering, word cloud visualization, and exporting results to a CSV file.
@@ -21,7 +18,7 @@ The PDF Word Frequency Counter is a Python-based GUI tool that allows users to a
 Ensure you have Python installed on your system. You will also need to install the following Python libraries:
 
 - PyMuPDF (fitz)
-- Tkinter
+- Tkinter (usually included with Python installations)
 - WordCloud
 - Matplotlib
 - Pillow
@@ -32,6 +29,12 @@ You can install these libraries using pip:
 pip install pymupdf wordcloud matplotlib pillow
 ```
 
+Alternatively, you can use the provided `Makefile` to install the dependencies:
+
+```sh
+make install
+```
+
 ## Usage
 
 1. **Run the Application:**
@@ -40,6 +43,12 @@ pip install pymupdf wordcloud matplotlib pillow
 
    ```sh
    python pdf_word_counter.py
+   ```
+
+   Or use the `Makefile`:
+
+   ```sh
+   make run
    ```
 
 2. **Browse PDF:**
@@ -73,6 +82,27 @@ Here is a screenshot of the application in action:
 
 ![PDF Word Frequency Counter Screenshot](screenshot.png)
 
+## Makefile
+
+A `Makefile` is included to streamline running the application, installing dependencies, and cleaning up generated files.
+
+### Available Commands:
+
+- **Run the Application:**
+  ```sh
+  make run
+  ```
+
+- **Install Dependencies:**
+  ```sh
+  make install
+  ```
+
+- **Clean Up Generated Files:**
+  ```sh
+  make clean
+  ```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -84,6 +114,5 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 ## Contact
 
 For any questions or feedback, please contact [mateusz.gruszka@linux.pl](mailto:mateusz.gruszka@linux.pl).
-
 
 
